@@ -17,15 +17,16 @@
 
 #import "BWTitlePagerView.h"
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface BWTitlePagerView ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) NSArray *textLabels;
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, weak) UIScrollView *observedScrollView;
+@property (nonatomic, strong) NSMutableArray *views;
 
 @end
 
@@ -41,9 +42,12 @@
         self.scrollView = [[UIScrollView alloc] init];
         self.scrollView.scrollEnabled = NO;
         
+        self.views = [NSMutableArray array];
+        
         self.pageControl = [[UIPageControl alloc] init];
         
-        self.textColor = [UIColor whiteColor];
+        self.tintColor = [UIColor lightGrayColor];
+        self.currentTintColor = [UIColor redColor];
         self.font = [UIFont systemFontOfSize:17];
         
         _isObservingScrollView = NO;
@@ -55,19 +59,29 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)addTitles:(NSArray *)titles {
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+- (void)addObjects:(NSArray *)objects {
+    [self.views makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.views removeAllObjects];
     
-    [titles enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL *stop) {
-        UILabel *textLabel = [[UILabel alloc] init];
-        textLabel.text = title;
-        textLabel.textColor = self.textColor;
-        textLabel.textAlignment = NSTextAlignmentCenter;
-        textLabel.font = self.font;
-        [self.scrollView addSubview:textLabel];
+    [objects enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) {
+        if ([object isKindOfClass:[NSString class]]) {
+            UILabel *textLabel = [[UILabel alloc] init];
+            textLabel.text = object;
+            textLabel.textColor = self.currentTintColor;
+            textLabel.textAlignment = NSTextAlignmentCenter;
+            textLabel.font = self.font;
+            [self.scrollView addSubview:textLabel];
+            [self.views addObject:textLabel];
+            
+        } else if ([object isKindOfClass:[UIImage class]]) {
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:object];
+            imageView.contentMode = UIViewContentModeCenter;
+            [self.scrollView addSubview:imageView];
+            [self.views addObject:imageView];
+        }
     }];
     
-    self.pageControl.numberOfPages = titles.count;
+    self.pageControl.numberOfPages = objects.count;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +90,12 @@
     
     self.scrollView.frame = self.bounds;
     
-    [self.scrollView.subviews enumerateObjectsUsingBlock:^(UILabel *view, NSUInteger idx, BOOL *stop) {
+    self.pageControl.frame = CGRectMake(0,
+                                        self.frame.size.height - 12,
+                                        self.frame.size.width,
+                                        10);
+    
+    [self.views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
         [view sizeToFit];
         CGSize size = view.frame.size;
         size.width = self.scrollView.frame.size.width;
@@ -84,13 +103,8 @@
                                 (self.scrollView.frame.size.height - size.height) / 2 - 7,
                                 size.width, size.height);
     }];
-    
-    self.pageControl.frame = CGRectMake(0,
-                                        self.frame.size.height - 12,
-                                        self.frame.size.width,
-                                        10);
 
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * [self.scrollView.subviews count], self.scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * [self.views count], self.scrollView.frame.size.height);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +135,24 @@
     CGFloat pageWidth = self.observedScrollView.frame.size.width;
 	NSUInteger page = floor((self.observedScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     self.pageControl.currentPage = page;
+    
+    CGFloat scrollViewWidth = self.scrollView.frame.size.width;
+    
+    [self.views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+        CGFloat diff = (self.scrollView.contentOffset.x - scrollViewWidth*idx) + scrollViewWidth/2;
+        
+        if (diff > scrollViewWidth/2) {
+            diff = scrollViewWidth - diff;
+        }
+        
+        if (diff < 0) {
+            diff = 0;
+        }
+        
+        CGFloat alpha = scrollViewWidth / 100 * diff / 100 + 0.15f;
+        
+        view.alpha = alpha;
+    }];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,23 +169,15 @@
 #pragma mark Getters and setters
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIColor *)pageIndicatorTintColor {
-    return self.pageControl.pageIndicatorTintColor;
+- (void)setCurrentTintColor:(UIColor *)currentTintColor {
+    _currentTintColor = currentTintColor;
+    self.pageControl.currentPageIndicatorTintColor = currentTintColor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setPageIndicatorTintColor:(UIColor *)pageIndicatorTintColor {
-    self.pageControl.pageIndicatorTintColor = pageIndicatorTintColor;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIColor *)currentPageIndicatorTintColor {
-    return self.pageControl.currentPageIndicatorTintColor;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setCurrentPageIndicatorTintColor:(UIColor *)currentPageIndicatorTintColor {
-    self.pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor;
+- (void)setTintColor:(UIColor *)tintColor {
+    _tintColor = tintColor;
+    self.pageControl.pageIndicatorTintColor = tintColor;
 }
 
 @end

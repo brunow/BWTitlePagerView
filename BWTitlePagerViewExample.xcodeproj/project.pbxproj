@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E722085219476E8500E280BA /* tux.png in Resources */ = {isa = PBXBuildFile; fileRef = E722085019476E8500E280BA /* tux.png */; };
+		E722085319476E8500E280BA /* tux@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E722085119476E8500E280BA /* tux@2x.png */; };
 		E734FCB6193F25A200A0A386 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E734FCB5193F25A200A0A386 /* Foundation.framework */; };
 		E734FCB8193F25A200A0A386 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E734FCB7193F25A200A0A386 /* CoreGraphics.framework */; };
 		E734FCBA193F25A200A0A386 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E734FCB9193F25A200A0A386 /* UIKit.framework */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E722085019476E8500E280BA /* tux.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tux.png; sourceTree = "<group>"; };
+		E722085119476E8500E280BA /* tux@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tux@2x.png"; sourceTree = "<group>"; };
 		E734FCB2193F25A200A0A386 /* BWTitlePagerViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BWTitlePagerViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E734FCB5193F25A200A0A386 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E734FCB7193F25A200A0A386 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -122,6 +126,8 @@
 		E734FCBD193F25A200A0A386 /* BWTitlePagerViewExample */ = {
 			isa = PBXGroup;
 			children = (
+				E722085019476E8500E280BA /* tux.png */,
+				E722085119476E8500E280BA /* tux@2x.png */,
 				E734FCC6193F25A200A0A386 /* AppDelegate.h */,
 				E734FCC7193F25A200A0A386 /* AppDelegate.m */,
 				E734FCCC193F25A200A0A386 /* Images.xcassets */,
@@ -246,6 +252,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E722085319476E8500E280BA /* tux@2x.png in Resources */,
+				E722085219476E8500E280BA /* tux.png in Resources */,
 				E734FCC2193F25A200A0A386 /* InfoPlist.strings in Resources */,
 				E734FCCD193F25A200A0A386 /* Images.xcassets in Resources */,
 			);
@@ -469,6 +477,7 @@
 				E734FCE6193F25A200A0A386 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E734FCE7193F25A200A0A386 /* Build configuration list for PBXNativeTarget "BWTitlePagerViewExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -477,6 +486,7 @@
 				E734FCE9193F25A200A0A386 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

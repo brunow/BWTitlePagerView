@@ -19,12 +19,11 @@
     BOOL _isObservingScrollView;
 }
 
+@property (nonatomic, strong) UIColor *tintColor;
+@property (nonatomic, strong) UIColor *currentTintColor;
 @property (nonatomic, strong) UIFont *font;
-@property (nonatomic, strong) UIColor *textColor;
-@property (nonatomic, strong) UIColor *pageIndicatorTintColor;
-@property (nonatomic, strong) UIColor *currentPageIndicatorTintColor;
 
-- (void)addTitles:(NSArray *)titles;
+- (void)addObjects:(NSArray *)images;
 
 - (void)observeScrollView:(UIScrollView *)scrollView;
 
