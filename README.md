@@ -8,13 +8,16 @@ Recreate the Twitter navigation controller pager.
 
 ```objective-c
 BWTitlePagerView *pagingTitleView = [[BWTitlePagerView alloc] init];
-pagingTitleView.frame = CGRectMake(0, 0, 200, 40);
+pagingTitleView.frame = CGRectMake(0, 0, 150, 40);
 pagingTitleView.font = [UIFont systemFontOfSize:18];
-pagingTitleView.textColor = [UIColor redColor];
-pagingTitleView.pageIndicatorTintColor = [UIColor darkGrayColor];
-pagingTitleView.currentPageIndicatorTintColor = [UIColor blackColor];
+pagingTitleView.currentTintColor = [UIColor redColor];
 [pagingTitleView observeScrollView:self.scrollView];
-[pagingTitleView addTitles:@[ @"Questions", @"Messages" ]];
+
+[pagingTitleView addObjects:@[ [UIImage imageNamed:@"tux"], [UIImage imageNamed:@"tux"] ]];
+
+Or
+
+[pagingTitleView addObjects:@[ @"messages", @"friends" ]];
     
 self.navigationItem.titleView = pagingTitleView;
 ```
